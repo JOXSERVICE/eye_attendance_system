@@ -1,0 +1,132 @@
+[2026-06-16 20:08:02,330] ERROR attendance.views: Registration failed: 
+Retry limit exceeded while trying to reconnect to the Celery result store
+backend. The Celery application must be restarted.
+Traceback (most recent call last):
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1033, in connect_check_health
+    sock = self._connect()
+           ^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1581, in _connect
+    raise err
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1565, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/asynchronous.py", line 349, in reconnect_on_error
+    yield
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/redis.py", line 165, in _consume_from
+    self._pubsub.subscribe(key)
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/client.py", line 1360, in subscribe
+    ret_val = self.execute_command("SUBSCRIBE", *new_channels.keys())
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/client.py", line 1073, in execute_command
+    self.connection = self.connection_pool.get_connection()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/utils.py", line 258, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 3139, in get_connection
+    connection.connect()
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1006, in connect
+    self.retry.call_with_retry(
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/retry.py", line 132, in call_with_retry
+    raise error
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/retry.py", line 120, in call_with_retry
+    return do()
+           ^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1007, in <lambda>
+    lambda: self.connect_check_health(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1055, in connect_check_health
+    raise e
+redis.exceptions.ConnectionError: Error 61 connecting to localhost:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1033, in connect_check_health
+    sock = self._connect()
+           ^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1581, in _connect
+    raise err
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1565, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/asynchronous.py", line 352, in reconnect_on_error
+    self._reconnect()
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/redis.py", line 121, in _reconnect
+    self._ensure(self._reconnect_pubsub, ())
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/redis.py", line 413, in ensure
+    return retry_over_time(
+           ^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/kombu/utils/functional.py", line 318, in retry_over_time
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/redis.py", line 103, in _reconnect_pubsub
+    metas = self.backend.client.mget(self.subscribed_to)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/commands/core.py", line 3637, in mget
+    return self.execute_command("MGET", *args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/client.py", line 787, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/client.py", line 793, in _execute_command
+    conn = self.connection or pool.get_connection()
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/utils.py", line 258, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 3139, in get_connection
+    connection.connect()
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1006, in connect
+    self.retry.call_with_retry(
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/retry.py", line 132, in call_with_retry
+    raise error
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/retry.py", line 120, in call_with_retry
+    return do()
+           ^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1007, in <lambda>
+    lambda: self.connect_check_health(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/redis/connection.py", line 1055, in connect_check_health
+    raise e
+redis.exceptions.ConnectionError: Error 61 connecting to localhost:6379. Connection refused.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/attendance/views.py", line 95, in post
+    enroll_student_face.delay(student.student_id, str(tmp_path))
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/app/task.py", line 463, in delay
+    return self.apply_async(args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/app/task.py", line 627, in apply_async
+    return app.send_task(
+           ^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/app/base.py", line 968, in send_task
+    self.backend.on_task_call(P, task_id)
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/redis.py", line 402, in on_task_call
+    self.result_consumer.consume_from(task_id)
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/redis.py", line 157, in consume_from
+    return self.start(task_id)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/redis.py", line 135, in start
+    self._consume_from(initial_task_id)
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/redis.py", line 164, in _consume_from
+    with self.reconnect_on_error():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/macbookpro/Downloads/face_attendance_system/backend/venv/lib/python3.12/site-packages/celery/backends/asynchronous.py", line 355, in reconnect_on_error
+    raise RuntimeError(E_RETRY_LIMIT_EXCEEDED) from exc
+RuntimeError: 
+Retry limit exceeded while trying to reconnect to the Celery result store
+backend. The Celery application must be restarted.
+

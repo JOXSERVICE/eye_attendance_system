@@ -1,0 +1,13 @@
+"""
+celery.py — Celery Configuration
+University Face Attendance System
+"""
+
+import os
+from celery import Celery
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "attendance_system.settings")
+
+app = Celery("attendance_system")
+app.config_from_object("django.conf:settings", namespace="CELERY")
+app.autodiscover_tasks()

@@ -1,0 +1,37 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║     University Smart Attendance System — Python Dependencies         ║
+# ║              pip install -r requirements.txt                         ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+
+# ── Django & REST Framework ──────────────────────────────────────────────
+Django>=4.2,<5.2
+djangorestframework>=3.15
+django-cors-headers>=4.3
+Pillow>=10.3.0
+
+# ── Database ─────────────────────────────────────────────────────────────
+psycopg2-binary>=2.9.9
+
+# ── Celery + Redis (background processing) ───────────────────────────────
+celery>=5.3.6
+redis>=5.0.3
+django-celery-results>=2.5.1
+
+# ── AI — Face Recognition ────────────────────────────────────────────────
+deepface>=0.0.93
+opencv-python>=4.9.0
+opencv-contrib-python>=4.9.0      # EDSR Super-Resolution
+numpy>=1.26.0
+tf-keras>=2.16.0                  # DeepFace backend
+
+# ── AI — Periocular (niqabi fallback) ────────────────────────────────────
+mediapipe>=0.10.14
+scikit-image>=0.23.0              # LBP texture descriptor
+
+# ── Excel Export ─────────────────────────────────────────────────────────
+openpyxl>=3.1.2
+
+# ── Config & Production ──────────────────────────────────────────────────
+python-decouple>=3.8
+gunicorn>=22.0.0
+whitenoise>=6.7.0
