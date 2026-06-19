@@ -3,6 +3,7 @@ models.py — University Smart Attendance System
 """
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 import json
 
 
@@ -18,6 +19,36 @@ class FloatListField(models.TextField):
         if value is None: return None
         if isinstance(value, list): return json.dumps([float(v) for v in value])
         return value
+
+
+class UserRole(models.TextChoices):
+    """User roles in the system"""
+    STUDENT   = "STUDENT",   "Student"
+    PROFESSOR = "PROFESSOR", "Professor"
+    ADMIN     = "ADMIN",     "Administrator"
+
+
+class UserProfile(models.Model):
+    """
+    Extended user profile to track roles and OAuth info.
+    Links to Django's built-in User model.
+    """
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=20, choices=UserRole.choices, default=UserRole.STUDENT)
+    
+    # OAuth/Social authentication
+    google_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    linkedin_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "User Profile"
+        verbose_name_plural = "User Profiles"
+    
+    def __str__(self):
+        return f"{self.user.email} — {self.role}"
 
 
 class Department(models.TextChoices):

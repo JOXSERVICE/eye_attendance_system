@@ -9,6 +9,15 @@ djangorestframework>=3.15
 django-cors-headers>=4.3
 Pillow>=10.3.0
 
+# ── JWT Authentication ───────────────────────────────────────────────────────
+djangorestframework-simplejwt>=5.3.2
+PyJWT>=2.8.1
+
+# ── OAuth & Social Authentication ────────────────────────────────────────────
+google-auth-oauthlib>=1.2.0
+google-auth>=2.25.0
+requests>=2.31.0
+
 # ── Database ─────────────────────────────────────────────────────────────
 psycopg2-binary>=2.9.9
 

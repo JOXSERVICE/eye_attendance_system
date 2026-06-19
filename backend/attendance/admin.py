@@ -4,7 +4,41 @@ admin.py — University Smart Attendance System
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils import timezone
-from .models import Student, Course, Attendance, LectureSession, RegistrationWindow
+from .models import Student, Course, Attendance, LectureSession, RegistrationWindow, UserProfile
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ("user_email", "role_badge", "oauth_providers", "created_at")
+    list_filter = ("role", "created_at")
+    search_fields = ("user__email", "user__username")
+    readonly_fields = ("created_at", "updated_at")
+    
+    @admin.display(description="Email")
+    def user_email(self, obj):
+        return obj.user.email
+    
+    @admin.display(description="Role")
+    def role_badge(self, obj):
+        colors = {
+            "STUDENT": "blue",
+            "PROFESSOR": "green",
+            "ADMIN": "red"
+        }
+        color = colors.get(obj.role, "gray")
+        return format_html(
+            '<span style="color:{};font-weight:bold;font-size:14px">🔹 {}</span>',
+            color, obj.role
+        )
+    
+    @admin.display(description="OAuth")
+    def oauth_providers(self, obj):
+        providers = []
+        if obj.google_id:
+            providers.append("Google ✓")
+        if obj.linkedin_id:
+            providers.append("LinkedIn ✓")
+        return ", ".join(providers) if providers else "—"
 
 
 @admin.register(RegistrationWindow)

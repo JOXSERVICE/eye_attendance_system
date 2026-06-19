@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_simplejwt",
     "corsheaders",
     "attendance",
 ]
@@ -53,17 +54,30 @@ TEMPLATES = [{
     ]},
 }]
 
-# ── Database (PostgreSQL) ────────────────────────────────────────────────────
-DATABASES = {
-    "default": {
-        "ENGINE":   config("DB_ENGINE",   default="django.db.backends.postgresql"),
-        "NAME":     config("DB_NAME",     default="face_attendance_db"),
-        "USER":     config("DB_USER",     default="postgres"),
-        "PASSWORD": config("DB_PASSWORD", default=""),
-        "HOST":     config("DB_HOST",     default="localhost"),
-        "PORT":     config("DB_PORT",     default="5432"),
+# ── Database (PostgreSQL in production, SQLite in development) ──────────────
+# For development without PostgreSQL, set DB_ENGINE=sqlite or leave it unset
+db_engine = config("DB_ENGINE", default="django.db.backends.sqlite3")
+
+if db_engine == "django.db.backends.sqlite3" or "sqlite" in db_engine.lower():
+    # SQLite for development/testing
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    # PostgreSQL for production
+    DATABASES = {
+        "default": {
+            "ENGINE":   config("DB_ENGINE",   default="django.db.backends.postgresql"),
+            "NAME":     config("DB_NAME",     default="face_attendance_db"),
+            "USER":     config("DB_USER",     default="postgres"),
+            "PASSWORD": config("DB_PASSWORD", default=""),
+            "HOST":     config("DB_HOST",     default="localhost"),
+            "PORT":     config("DB_PORT",     default="5432"),
+        }
+    }
 
 # ── Celery + Redis ───────────────────────────────────────────────────────────
 CELERY_BROKER_URL         = config("REDIS_URL", default="redis://localhost:6379/0")
@@ -81,12 +95,40 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.MultiPartParser",
         "rest_framework.parsers.FormParser",
     ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "DEFAULT_THROTTLE_CLASSES": [
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {"anon": "60/minute", "user": "120/minute"},
+}
+
+# ── JWT Configuration ────────────────────────────────────────────────────────
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME":  timedelta(hours=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS":  False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "VERIFYING_KEY": None,
+    "AUDIENCE": None,
+    "ISSUER": None,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+    "JTI_CLAIM": "jti",
+    "TOKEN_TYPE_CLAIM": "token_type",
+    "JTI_ALGORITHM_NAME": "HS256",
 }
 
 # ── CORS ─────────────────────────────────────────────────────────────────────

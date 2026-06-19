@@ -13,10 +13,21 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 
-from celery import shared_task
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
+
+# Make Celery optional for development
+try:
+    from celery import shared_task
+except ImportError:
+    # Celery not installed - define a dummy decorator
+    def shared_task(*args, **kwargs):
+        def decorator(func):
+            return func
+        if len(args) == 1 and callable(args[0]):
+            return args[0]
+        return decorator
 
 
 @shared_task(bind=True, max_retries=3, default_retry_delay=10)
